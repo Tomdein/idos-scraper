@@ -6,7 +6,7 @@ search_text_size = (4, 1)
 layout = [[sg.Text("From:", size=search_text_size), sg.In(size=(25, 1), enable_events=True, key="-FROM-")], [sg.Text("To:", search_text_size), sg.In(size=(25, 1), enable_events=True, key="-TO-")], [sg.Multiline(size=(50,10), key='-HINT-', autoscroll=False)], [sg.Button("OK")]]
 
 # Create the window
-window = sg.Window("Demo", layout)
+window = sg.Window("Timetable", layout)
 
 # Create an event loop
 while True:
