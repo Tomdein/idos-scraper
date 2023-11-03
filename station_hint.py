@@ -1,12 +1,54 @@
 import requests
 import json
 import re
+import logging
 
-def GetHints(station_short_str: str):
+# -------------------- Setting up logging --------------------
+# https://stackoverflow.com/questions/384076/how-can-i-color-python-logging-output
+# https://chrisyeh96.github.io/2020/03/28/terminal-colors.html
+class CustomFormatter(logging.Formatter):
+
+    grey = "\x1b[38;20m"
+    green = "\x1b[32;20m"
+    yellow = "\x1b[33;20m"
+    red = "\x1b[31;20m"
+    bold_red = "\x1b[31;1m"
+    reset = "\x1b[0m"
+    #format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
+    format = " %(levelname)s - %(message)s"
+
+    FORMATS = {
+        logging.DEBUG: green + format + reset,
+        logging.INFO: grey + format + reset,
+        logging.WARNING: yellow + format + reset,
+        logging.ERROR: red + format + reset,
+        logging.CRITICAL: bold_red + format + reset
+    }
+
+    def format(self, record):
+        log_fmt = self.FORMATS.get(record.levelno)
+        formatter = logging.Formatter(log_fmt)
+        return formatter.format(record)
+    
+# create logger with 'spam_application'
+logger = logging.getLogger("Station Scrapper")
+logger.setLevel(logging.DEBUG)
+
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+ch.setFormatter(CustomFormatter())
+
+logger.addHandler(ch)
+# -------------------- Setting up logging --------------------
+
+
+def GetHints(station_short_str: str, number_of_hints_to_query: str | int = 3):
     url = "https://idos.idnes.cz/vlakyautobusymhdvse/Ajax/SearchTimetableObjects"
     url = "https://idos.idnes.cz/ostrava/Ajax/SearchTimetableObjects"
 
-    querystring = {"callback":"jQuery","count":"3","prefixText":station_short_str,"searchByPosition":"false","onlyStation":"false","format":"json"}
+    querystring = {"callback":"jQuery","count":number_of_hints_to_query,"prefixText":station_short_str,"searchByPosition":"false","onlyStation":"false","format":"json"}
 
     payload = ""
     headers = {
@@ -23,13 +65,12 @@ def GetHints(station_short_str: str):
     r = re.match(r"^jQuery\((.*)\);", response.text)
 
     hints = json.loads(r[1])
-    # print(r[1])
-    # print("")
+    logger.debug(r[1])
 
     names = list()
     for hint in hints:
-        # print(hint["text"])
-        # print(hint["lines"])
+        #logger.debug(hint["text"])
+        #logger.debug(hint["lines"])
         names.append(hint["text"])
 
     return names
