@@ -16,7 +16,14 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "beautifulsoup4~=4.12.2",
+    "PySimpleGUI~=4.60.5",
+
+]
 
 [project.urls]
 "Homepage" = "https://github.com/Tomdein/idos-scraper"
+"Repository" = "https://github.com/Tomdein/idos-scraper"
+"Documentation" = "https://github.com/Tomdein/idos-scraper"
 "Bug Tracker" = "https://github.com/Tomdein/idos-scraper/issues"

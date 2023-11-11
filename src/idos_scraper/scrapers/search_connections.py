@@ -25,6 +25,7 @@ def SearchConnectionsByStation(station_from: str = "Horni polanka", station_to: 
 # The same as GetConnectionsByStation, but the station_from can be empty and will be autofilled with your coordinates
 # Uses "fc" query parameter! And "f" is "Moje poloha"
 def SearchConnectionsByLocation(station_from: str | None = None, station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
+    logger.warning(f"SearchConnectionsByLocation is not yet fully implemented")
     querystring = {"f":"Moje poloha","t":f"{station_to}"}
         
     if time is not None:
