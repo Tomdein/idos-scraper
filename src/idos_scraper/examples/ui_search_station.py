@@ -30,16 +30,20 @@ if __name__ == '__main__':
             hints = station_hint.SearchStation(values["-FROM-"])
             
             window['-HINT-'].update("")
-            for hint in hints:
-                window['-HINT-'].print(hint)
+
+            if hints is not None:
+                for hint in hints:
+                    window['-HINT-'].print(hint)
 
         elif event == "-TO-":
             hints = station_hint.SearchStation(values["-TO-"])
 
             window['-HINT-'].update("")
-            for hint in hints:
-                window['-HINT-'].print(hint)
-                # or window['-HINT-'].update(hint + '\n', append=True)
+
+            if hints is not None:
+                for hint in hints:
+                    window['-HINT-'].print(hint)
+                    # or window['-HINT-'].update(hint + '\n', append=True)
 
     window.close()
     

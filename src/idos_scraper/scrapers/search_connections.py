@@ -10,8 +10,11 @@ logger = log.logging.getLogger(__name__)
 logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
+# SearchConnectionsByStation & SearchConnectionsByLocation call SearchConnections
+# async_SearchConnectionsByStation & async_SearchConnectionsByLocation call async_SearchConnections
+# Both SearchConnections and async_SearchConnections use blocking ParseConnections
 
-def SearchConnectionsByStation(station_from: str = "Horni polanka", station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
+def _GetQuerystringByStation(station_from: str = "Horni polanka", station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
     querystring = {"f":f"{station_from}","t":f"{station_to}"}
     
     if time is not None:
@@ -20,12 +23,14 @@ def SearchConnectionsByStation(station_from: str = "Horni polanka", station_to: 
     if date is not None:
         querystring["date"] = date
 
+    return querystring
+
+def SearchConnectionsByStation(station_from: str = "Horni polanka", station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
+    querystring = _GetQuerystringByStation(station_from, station_to, time, date)
+
     return SearchConnections(querystring)
 
-# The same as GetConnectionsByStation, but the station_from can be empty and will be autofilled with your coordinates
-# Uses "fc" query parameter! And "f" is "Moje poloha"
-def SearchConnectionsByLocation(station_from: str | None = None, station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
-    logger.warning(f"SearchConnectionsByLocation is not yet fully implemented")
+def _GetQuerystringByLocation(station_from: str | None = None, station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
     querystring = {"f":"Moje poloha","t":f"{station_to}"}
         
     if time is not None:
@@ -38,6 +43,14 @@ def SearchConnectionsByLocation(station_from: str | None = None, station_to: str
         station_from = "loc:49.8384522; 18.1538506%myPosition=true"
 
     querystring["fc"] = station_from
+
+    return querystring
+
+# The same as GetConnectionsByStation, but the station_from can be empty and will be autofilled with your coordinates
+# Uses "fc" query parameter! And "f" is "Moje poloha"
+def SearchConnectionsByLocation(station_from: str | None = None, station_to: str = "VŠB-TUO", time: str | None = None, date: str | None = None) -> dict:
+    logger.warning(f"SearchConnectionsByLocation is not yet fully implemented")
+    querystring = _GetQuerystringByLocation(station_from, station_to, time, date)
     
     return SearchConnections(querystring)
 
@@ -52,7 +65,7 @@ def SearchConnections(querystring: dict) -> dict:
 
     response = requests.request("GET", url, params=querystring)
 
-    return ParseConnections(response)
+    return ParseConnections(response.text)
 
 def SearchConnectionsPOST() -> dict:
     url = "https://idos.idnes.cz/vlakyautobusymhdvse/spojeni/"
@@ -74,10 +87,10 @@ def SearchConnectionsPOST() -> dict:
 
     response = requests.request("POST", url, data=payload)
 
-    return ParseConnections(response)
+    return ParseConnections(response.text)
 
-def ParseConnections(response: requests.Response) -> dict:
-    soup = BeautifulSoup(response.text, 'html.parser')
+def ParseConnections(response_text: requests.Response) -> dict:
+    soup = BeautifulSoup(response_text, 'html.parser')
 
     conn_result = ParseConnResult(soup)
 
@@ -98,6 +111,8 @@ def ParseConnResult(soup: BeautifulSoup) -> dict | None:
         return None
 
     result_js = connection_result_js[0].contents[0]
+
+    logger.debug(result_js)
 
     re_connResult_match = re.compile("var connResult = new Conn\.ConnResult\(params, null, (\{.*?\})\);").search(result_js)
     if re_connResult_match is None:
@@ -203,7 +218,7 @@ def ParseTypeAndNumber(html_single) -> dict:
 
     return conn_single
 
-def ParseSingleConnectionDetail(html_single):
+def ParseSingleConnectionDetail(html_single) -> dict:
     station_times = html_single.find_all("li", class_="item")
 
     conn_single = dict()

@@ -1,3 +1,6 @@
 from .search_connections import SearchConnectionsByStation, SearchConnectionsByLocation
+from .async_search_connections import async_SearchConnectionsByStation, async_SearchConnectionsByLocation
 from .page_connections import PageConnections
+from .async_page_connections import async_PageConnections
 from .search_station import SearchStation
+from .async_search_station import async_SearchStation
