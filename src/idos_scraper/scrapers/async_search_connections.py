@@ -21,7 +21,7 @@ async def async_SearchConnectionsByStation(station_from: str = "Horni polanka",
                                            ) -> dict:
     querystring = _GetQuerystringByStation(station_from, station_to, time, date)
 
-    return await async_SearchConnections(querystring)
+    return await async_SearchConnections(querystring, session)
 
 async def async_SearchConnectionsByLocation(station_from: str | None = None,
                                             station_to: str = "VŠB-TUO",
@@ -32,7 +32,7 @@ async def async_SearchConnectionsByLocation(station_from: str | None = None,
     logger.warning(f"SearchConnectionsByLocation is not yet fully implemented")
     querystring = _GetQuerystringByLocation(station_from, station_to, time, date)
     
-    return await async_SearchConnections(querystring)
+    return await async_SearchConnections(querystring, session)
 
 async def async_SearchConnections(querystring: dict,
                                   session: aiohttp.ClientSession | None = None
