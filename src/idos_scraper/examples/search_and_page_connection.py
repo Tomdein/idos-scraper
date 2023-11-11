@@ -1,4 +1,4 @@
-import idos_scrapper.log as log
+import idos_scraper.log as log
 
 # create logger
 logger = log.logging.getLogger(__name__)
@@ -8,7 +8,7 @@ logger.addHandler(log.ch)
 if __name__ == '__main__':
     # Execute when the module is not initialized from an import statement.
 
-    import scrapers
+    from idos_scraper import scrapers
 
     query = scrapers.SearchConnectionsByStation(time="18:20")
 

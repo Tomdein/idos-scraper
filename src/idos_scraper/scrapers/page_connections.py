@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup
 import re
 import json
 
-import idos_scraper.log as log
-from idos_scrapper.scrapers.search_connections import ParseConnectionsDetails
+from .. import log
+from .search_connections import ParseConnectionsDetails
 
 # create logger
 logger = log.logging.getLogger(__name__)

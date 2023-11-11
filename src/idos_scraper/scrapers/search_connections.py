@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import json
 
-import log
+from .. import log
 
 # create logger
 logger = log.logging.getLogger(__name__)

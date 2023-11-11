@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
 
-import scrapers.search_station as station_hint
+import idos_scraper.scrapers.search_station as station_hint
 
-import idos_scrapper.log as log
+import idos_scraper.log as log
 
 # create logger
 logger = log.logging.getLogger(__name__)
@@ -27,14 +27,14 @@ if __name__ == '__main__':
             break
 
         elif event == "-FROM-":
-            hints = station_hint.GetHints(values["-FROM-"])
+            hints = station_hint.SearchStation(values["-FROM-"])
             
             window['-HINT-'].update("")
             for hint in hints:
                 window['-HINT-'].print(hint)
 
         elif event == "-TO-":
-            hints = station_hint.GetHints(values["-TO-"])
+            hints = station_hint.SearchStation(values["-TO-"])
 
             window['-HINT-'].update("")
             for hint in hints:

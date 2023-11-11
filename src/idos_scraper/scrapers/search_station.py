@@ -2,7 +2,7 @@ import requests
 import json
 import re
 
-import log
+from .. import log
 
 # create logger
 logger = log.logging.getLogger(__name__)
