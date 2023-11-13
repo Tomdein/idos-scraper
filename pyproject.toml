@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "idos-scraper"
-version = "0.2.1"
+version = "0.2.2"
 authors = [
   { name="Tomas Deingruber", email="Deingruber.Tomas+idos-scraper@gmail.com" },
 ]
@@ -17,9 +17,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "beautifulsoup4~=4.12.2",
-    "PySimpleGUI~=4.60.5",
-    "aiohttp~=3.8.6",
+    "beautifulsoup4>=4.11",
+    "PySimpleGUI>=4.30",
+    "aiohttp>=3.8",
 ]
 
 [project.urls]
