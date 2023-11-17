@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "idos-scraper"
-version = "0.2.2"
+version = "0.2.3"
 authors = [
   { name="Tomas Deingruber", email="Deingruber.Tomas+idos-scraper@gmail.com" },
 ]

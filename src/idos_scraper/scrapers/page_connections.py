@@ -8,7 +8,6 @@ from .search_connections import ParseConnectionsDetails
 
 # create logger
 logger = log.logging.getLogger(__name__)
-logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
 def _GetQueryPaging(ids_list: list, handle: int, arrivalThere: str, searchDate: str) -> dict:

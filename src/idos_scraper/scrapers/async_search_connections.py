@@ -6,7 +6,6 @@ from .search_connections import _GetQuerystringByStation, _GetQuerystringByLocat
 
 # create logger
 logger = log.logging.getLogger(__name__)
-logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
 # SearchConnectionsByStation & SearchConnectionsByLocation call SearchConnections

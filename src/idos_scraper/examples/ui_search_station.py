@@ -6,7 +6,6 @@ import idos_scraper.log as log
 
 # create logger
 logger = log.logging.getLogger(__name__)
-logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
 

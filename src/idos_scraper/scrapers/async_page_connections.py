@@ -7,7 +7,6 @@ from .page_connections import _GetQueryPaging, _ParsePagingResponse
 
 # create logger
 logger = log.logging.getLogger(__name__)
-logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
 async def async_PageConnections(ids_list: list,

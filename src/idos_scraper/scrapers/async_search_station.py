@@ -6,7 +6,6 @@ from .search_station import _GetQueryStationSearch, _ParseStationSearchResponse
 
 # create logger
 logger = log.logging.getLogger(__name__)
-logger.setLevel(log.logging.DEBUG)
 logger.addHandler(log.ch)
 
 # -------------------- Setting up logging --------------------
